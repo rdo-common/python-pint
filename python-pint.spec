@@ -2,7 +2,7 @@
 
 Name:           python-pint
 Version:        0.6
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Physical quantities module
 
 License:        BSD
@@ -56,6 +56,9 @@ rm -rf html/.{doctrees,buildinfo}
 %{python2_sitelib}/%{pypi_name}-%{version}-py?.?.egg-info
 
 %changelog
+* Thu Jun 18 2015 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.6-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_23_Mass_Rebuild
+
 * Mon Dec 15 2014 Matthias Runge <mrunge@redhat.com> - 0.6-2
 - change BR python-devel to python2-devel (rhbz#1173109)
 
