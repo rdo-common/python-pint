@@ -9,7 +9,7 @@
 
 Name:           python-pint
 Version:        0.6
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        Physical quantities module
 
 License:        BSD
@@ -26,19 +26,19 @@ to different units.
 It is distributed with a comprehensive list of physical units, prefixes
 and constants.
 
-%package -n python2-%{pypi_name}
+%package -n python2-pint
 Summary:        Physical quantities module
-Provides:       python-%{pypi_name} = %{upstream_version}
-Obsoletes:      python-%{pypi_name} < %{upstream_version}
+Provides:       python-pint = %{version}-%{release}
+Obsoletes:      python-pint < 0.6-4
 
 BuildRequires:  python2-devel
 BuildRequires:  python-sphinx
 BuildRequires:  python-setuptools
 
 # python_provide does not exist in CBS Cloud buildroot
-%{?python_provide:%python_provide python2-%{pypi_name}}
+%{?python_provide:%python_provide python2-pint}
 
-%description -n python2-%{pypi_name}
+%description -n python2-pint
 Pint is Python module/package to define, operate and manipulate physical
 quantities: the product of a numerical value and a unit of measurement.
 It allows arithmetic operations between them and conversions from and
@@ -47,27 +47,27 @@ to different units.
 It is distributed with a comprehensive list of physical units, prefixes
 and constants.
 
-%package -n python2-%{pypi_name}-doc
+%package -n python2-pint-doc
 Summary:        Documentation for the pint module
-%{?python_provide:%python_provide python2-%{pypi_name}-doc}
+%{?python_provide:%python_provide python2-pint-doc}
 # python_provide does not exist in CBS Cloud buildroot
-Provides:       python-%{pypi_name}-doc = %{upstream_version}
-Obsoletes:      python-%{pypi_name}-doc < %{upstream_version}
+Provides:       python-pint-doc = %{version}-%{release}
+Obsoletes:      python-pint-doc < 0.6-4
 
-%description -n python2-%{pypi_name}-doc
+%description -n python2-pint-doc
 Documentation for the pint module
 
 #python3 subpackage
 %if 0%{?with_python3}
-%package -n python3-%{pypi_name}
+%package -n python3-pint
 Summary:        Physical quantities module
-%{?python_provide:%python_provide python3-%{pypi_name}}
+%{?python_provide:%python_provide python3-pint}
 
 BuildRequires:  python3-devel
 BuildRequires:  python3-sphinx
 BuildRequires:  python3-setuptools
 
-%description -n python3-%{pypi_name}
+%description -n python3-pint
 Pint is Python module/package to define, operate and manipulate physical
 quantities: the product of a numerical value and a unit of measurement.
 It allows arithmetic operations between them and conversions from and
@@ -78,12 +78,12 @@ and constants.
 %endif
 
 %if 0%{?with_python3}
-%package -n python3-%{pypi_name}-doc
+%package -n python3-pint-doc
 Summary:        Documentation for the pint module
-%{?python_provide:%python_provide python3-%{pypi_name}-doc}
+%{?python_provide:%python_provide python3-pint-doc}
 BuildRequires:  python3-sphinx
 
-%description -n python3-%{pypi_name}-doc
+%description -n python3-pint-doc
 Documentation for the pint module
 %endif
 
@@ -120,18 +120,18 @@ rm -rf html/.{doctrees,buildinfo}
 %{__python3} setup.py test
 %endif
 
-%files -n python2-%{pypi_name}
+%files -n python2-pint
 %doc README
 %license LICENSE
 %{python2_sitelib}/pint
 %{python2_sitelib}/%{pypi_name}-%{version}-py?.?.egg-info
 
-%files -n python2-%{pypi_name}-doc
+%files -n python2-pint-doc
 %doc html
 %license docs/_themes/LICENSE
 
 %if 0%{?with_python3}
-%files -n python3-%{pypi_name}
+%files -n python3-pint
 %doc README
 %license LICENSE
 %{python3_sitelib}/pint
@@ -139,12 +139,15 @@ rm -rf html/.{doctrees,buildinfo}
 %endif
 
 %if 0%{?with_python3}
-%files -n python3-%{pypi_name}-doc
+%files -n python3-pint-doc
 %doc html
 %license docs/_themes/LICENSE
 %endif
 
 %changelog
+* Sun Sep 06 2015 Matthias Runge <mrunge@redhat.com> - 0.6-5
+- fix uppercase/lowercase naming, fix obsoletes
+
 * Fri Sep 04 2015 Chandan Kumar <chkumar246@gmail.com> - 0.6-4
 - Add python2 and python3 subpackages
 
