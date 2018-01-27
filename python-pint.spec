@@ -9,7 +9,7 @@
 
 Name:           python-pint
 Version:        0.6
-Release:        11%{?dist}
+Release:        12%{?dist}
 Summary:        Physical quantities module
 
 License:        BSD
@@ -32,8 +32,8 @@ Provides:       python-pint = %{version}-%{release}
 Obsoletes:      python-pint < 0.6-4
 
 BuildRequires:  python2-devel
-BuildRequires:  python-sphinx
-BuildRequires:  python-setuptools
+BuildRequires:  python2-sphinx
+BuildRequires:  python2-setuptools
 
 # python_provide does not exist in CBS Cloud buildroot
 %{?python_provide:%python_provide python2-pint}
@@ -145,6 +145,10 @@ rm -rf html/.{doctrees,buildinfo}
 %endif
 
 %changelog
+* Sat Jan 27 2018 Iryna Shcherbina <ishcherb@redhat.com> - 0.6-12
+- Update Python 2 dependency declarations to new packaging standards
+  (See https://fedoraproject.org/wiki/FinalizingFedoraSwitchtoPython3)
+
 * Thu Jul 27 2017 Fedora Release Engineering <releng@fedoraproject.org> - 0.6-11
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_27_Mass_Rebuild
 
