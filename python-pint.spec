@@ -9,7 +9,7 @@
 
 Name:           python-pint
 Version:        0.6
-Release:        14%{?dist}
+Release:        15%{?dist}
 Summary:        Physical quantities module
 
 License:        BSD
@@ -145,6 +145,9 @@ rm -rf html/.{doctrees,buildinfo}
 %endif
 
 %changelog
+* Sat Jul 14 2018 Fedora Release Engineering <releng@fedoraproject.org> - 0.6-15
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_29_Mass_Rebuild
+
 * Tue Jun 19 2018 Miro Hrončok <mhroncok@redhat.com> - 0.6-14
 - Rebuilt for Python 3.7
 
