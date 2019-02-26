@@ -1,20 +1,20 @@
 %global pypi_name Pint
 
 
-%if 0%{?fedora}
+%if 0%{?fedora} || 0%{?rhel} > 7
 %global with_python3 1
 %endif
 
 %{!?upstream_version: %global upstream_version %{version}%{?milestone}}
 
 Name:           python-pint
-Version:        0.6
-Release:        16%{?dist}
+Version:        0.9
+Release:        1%{?dist}
 Summary:        Physical quantities module
 
 License:        BSD
 URL:            https://github.com/hgrecco/pint
-Source0:        https://pypi.python.org/packages/source/P/%{pypi_name}/%{pypi_name}-%{version}.zip
+Source0:        https://pypi.python.org/packages/source/P/%{pypi_name}/%{pypi_name}-%{version}.tar.gz
 BuildArch:      noarch
 
 %description
@@ -33,7 +33,10 @@ Obsoletes:      python-pint < 0.6-4
 
 BuildRequires:  python2-devel
 BuildRequires:  python2-sphinx
+BuildRequires:  python2-matplotlib
 BuildRequires:  python2-setuptools
+
+Requires:       python2-funcsigs
 
 # python_provide does not exist in CBS Cloud buildroot
 %{?python_provide:%python_provide python2-pint}
@@ -82,6 +85,7 @@ and constants.
 Summary:        Documentation for the pint module
 %{?python_provide:%python_provide python3-pint-doc}
 BuildRequires:  python3-sphinx
+BuildRequires:  python3-matplotlib
 
 %description -n python3-pint-doc
 Documentation for the pint module
@@ -89,6 +93,9 @@ Documentation for the pint module
 
 %prep
 %setup -q -n %{pypi_name}-%{version}
+
+# Babel tests are not ready, see https://github.com/hgrecco/pint/issues/663
+rm pint/testsuite/test_babel.py
 
 %build
 %{__python2} setup.py build
@@ -145,6 +152,9 @@ rm -rf html/.{doctrees,buildinfo}
 %endif
 
 %changelog
+* Mon Feb 25 2019 Yatin Karel <ykarel@redhat.com> - 0.9-1
+- Update to 0.9
+
 * Sat Feb 02 2019 Fedora Release Engineering <releng@fedoraproject.org> - 0.6-16
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_30_Mass_Rebuild
 
