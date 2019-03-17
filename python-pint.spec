@@ -1,15 +1,9 @@
 %global pypi_name Pint
-
-
-%if 0%{?fedora} || 0%{?rhel} > 7
-%global with_python3 1
-%endif
-
 %{!?upstream_version: %global upstream_version %{version}%{?milestone}}
 
 Name:           python-pint
 Version:        0.9
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Physical quantities module
 
 License:        BSD
@@ -26,42 +20,6 @@ to different units.
 It is distributed with a comprehensive list of physical units, prefixes
 and constants.
 
-%package -n python2-pint
-Summary:        Physical quantities module
-Provides:       python-pint = %{version}-%{release}
-Obsoletes:      python-pint < 0.6-4
-
-BuildRequires:  python2-devel
-BuildRequires:  python2-sphinx
-BuildRequires:  python2-matplotlib
-BuildRequires:  python2-setuptools
-
-Requires:       python2-funcsigs
-
-# python_provide does not exist in CBS Cloud buildroot
-%{?python_provide:%python_provide python2-pint}
-
-%description -n python2-pint
-Pint is Python module/package to define, operate and manipulate physical
-quantities: the product of a numerical value and a unit of measurement.
-It allows arithmetic operations between them and conversions from and
-to different units.
-
-It is distributed with a comprehensive list of physical units, prefixes
-and constants.
-
-%package -n python2-pint-doc
-Summary:        Documentation for the pint module
-%{?python_provide:%python_provide python2-pint-doc}
-# python_provide does not exist in CBS Cloud buildroot
-Provides:       python-pint-doc = %{version}-%{release}
-Obsoletes:      python-pint-doc < 0.6-4
-
-%description -n python2-pint-doc
-Documentation for the pint module
-
-#python3 subpackage
-%if 0%{?with_python3}
 %package -n python3-pint
 Summary:        Physical quantities module
 %{?python_provide:%python_provide python3-pint}
@@ -78,9 +36,7 @@ to different units.
 
 It is distributed with a comprehensive list of physical units, prefixes
 and constants.
-%endif
 
-%if 0%{?with_python3}
 %package -n python3-pint-doc
 Summary:        Documentation for the pint module
 %{?python_provide:%python_provide python3-pint-doc}
@@ -89,7 +45,6 @@ BuildRequires:  python3-matplotlib
 
 %description -n python3-pint-doc
 Documentation for the pint module
-%endif
 
 %prep
 %setup -q -n %{pypi_name}-%{version}
@@ -98,60 +53,33 @@ Documentation for the pint module
 rm pint/testsuite/test_babel.py
 
 %build
-%{__python2} setup.py build
-
-# generate html docs
-
-export PYTHONPATH="$( pwd ):$PYTHONPATH"
-sphinx-build docs html
-
-%if 0%{?with_python3}
-%{__python3} setup.py build
+%py3_build
 export PYTHONPATH="$( pwd ):$PYTHONPATH"
 sphinx-build-3 docs html
 # remove the sphinx-build leftovers
 rm -rf html/.{doctrees,buildinfo}
-%endif
 
 %install
-%{__python2} setup.py install --skip-build --root %{buildroot}
-
-%if 0%{?with_python3}
-%{__python3} setup.py install --skip-build --root %{buildroot}
-%endif
+%py3_install
 
 %check
-%{__python2} setup.py test
-
-%if 0%{?with_python3}
 %{__python3} setup.py test
-%endif
 
-%files -n python2-pint
-%doc README
-%license LICENSE
-%{python2_sitelib}/pint
-%{python2_sitelib}/%{pypi_name}-%{version}-py?.?.egg-info
-
-%files -n python2-pint-doc
-%doc html
-%license docs/_themes/LICENSE
-
-%if 0%{?with_python3}
 %files -n python3-pint
 %doc README
 %license LICENSE
 %{python3_sitelib}/pint
 %{python3_sitelib}/%{pypi_name}-%{version}-py?.?.egg-info
-%endif
 
-%if 0%{?with_python3}
 %files -n python3-pint-doc
 %doc html
 %license docs/_themes/LICENSE
-%endif
 
 %changelog
+* Sun Mar 17 2019 Miro Hrončok <mhroncok@redhat.com> - 0.9-2
+- Subpackages python2-pint, python2-pint-doc have been removed
+  See https://fedoraproject.org/wiki/Changes/Mass_Python_2_Package_Removal
+
 * Mon Feb 25 2019 Yatin Karel <ykarel@redhat.com> - 0.9-1
 - Update to 0.9
 
