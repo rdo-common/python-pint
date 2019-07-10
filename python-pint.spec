@@ -3,12 +3,16 @@
 
 Name:           python-pint
 Version:        0.9
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Physical quantities module
 
 License:        BSD
 URL:            https://github.com/hgrecco/pint
 Source0:        https://pypi.python.org/packages/source/P/%{pypi_name}/%{pypi_name}-%{version}.tar.gz
+
+# Use context manager for assertWarns and fix DeprecationWarning
+Patch0: https://github.com/hgrecco/pint/commit/955102b318a4ecc34afd0f366e826ef174fe647b.patch
+
 BuildArch:      noarch
 
 %description
@@ -76,6 +80,10 @@ rm -rf html/.{doctrees,buildinfo}
 %license docs/_themes/LICENSE
 
 %changelog
+* Wed Jul 10 2019 Matthias Runge <mrunge@redhat.com> - 0.9-3
+- Use context manager for assertWarns and fix DeprecationWarning
+  resolves: rhbz#1706212
+
 * Sun Mar 17 2019 Miro Hrončok <mhroncok@redhat.com> - 0.9-2
 - Subpackages python2-pint, python2-pint-doc have been removed
   See https://fedoraproject.org/wiki/Changes/Mass_Python_2_Package_Removal
