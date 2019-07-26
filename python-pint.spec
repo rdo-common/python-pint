@@ -3,7 +3,7 @@
 
 Name:           python-pint
 Version:        0.9
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Physical quantities module
 
 License:        BSD
@@ -80,6 +80,9 @@ rm -rf html/.{doctrees,buildinfo}
 %license docs/_themes/LICENSE
 
 %changelog
+* Fri Jul 26 2019 Fedora Release Engineering <releng@fedoraproject.org> - 0.9-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_31_Mass_Rebuild
+
 * Wed Jul 10 2019 Matthias Runge <mrunge@redhat.com> - 0.9-3
 - Use context manager for assertWarns and fix DeprecationWarning
   resolves: rhbz#1706212
