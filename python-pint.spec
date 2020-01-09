@@ -2,8 +2,8 @@
 %{!?upstream_version: %global upstream_version %{version}%{?milestone}}
 
 Name:           python-pint
-Version:        0.9
-Release:        5%{?dist}
+Version:        0.10.1
+Release:        1%{?dist}
 Summary:        Physical quantities module
 
 License:        BSD
@@ -14,6 +14,7 @@ Source0:        https://pypi.python.org/packages/source/P/%{pypi_name}/%{pypi_na
 Patch0: https://github.com/hgrecco/pint/commit/955102b318a4ecc34afd0f366e826ef174fe647b.patch
 
 BuildArch:      noarch
+BuildRequires:  pyproject-rpm-macros
 
 %description
 Pint is Python module/package to define, operate and manipulate physical
@@ -28,10 +29,6 @@ and constants.
 Summary:        Physical quantities module
 %{?python_provide:%python_provide python3-pint}
 
-BuildRequires:  python3-devel
-BuildRequires:  python3-sphinx
-BuildRequires:  python3-setuptools
-
 %description -n python3-pint
 Pint is Python module/package to define, operate and manipulate physical
 quantities: the product of a numerical value and a unit of measurement.
@@ -44,7 +41,12 @@ and constants.
 %package -n python3-pint-doc
 Summary:        Documentation for the pint module
 %{?python_provide:%python_provide python3-pint-doc}
+
 BuildRequires:  python3-sphinx
+BuildRequires:  python3-nbsphinx
+BuildRequires:  python3-pytest
+BuildRequires:  python3-numpy
+BuildRequires:  pandoc
 BuildRequires:  python3-matplotlib
 
 %description -n python3-pint-doc
@@ -53,35 +55,38 @@ Documentation for the pint module
 %prep
 %setup -q -n %{pypi_name}-%{version}
 
-# Babel tests are not ready, see https://github.com/hgrecco/pint/issues/663
-rm pint/testsuite/test_babel.py
-
-rm pint/testsuite/test_quantity.py
+%generate_buildrequires
+%pyproject_buildrequires -t
 
 %build
-%py3_build
+%pyproject_wheel
+
 export PYTHONPATH="$( pwd ):$PYTHONPATH"
 sphinx-build-3 docs html
 # remove the sphinx-build leftovers
+
 rm -rf html/.{doctrees,buildinfo}
 
 %install
-%py3_install
+%pyproject_install
 
 %check
-%{__python3} setup.py test
+%tox
 
 %files -n python3-pint
-%doc README
 %license LICENSE
 %{python3_sitelib}/pint
-%{python3_sitelib}/%{pypi_name}-%{version}-py?.?.egg-info
+%{python3_sitelib}/Pint-%{version}.*
 
 %files -n python3-pint-doc
 %doc html
 %license docs/_themes/LICENSE
 
 %changelog
+* Thu Jan 09 2020 Matthias Runge <mrunge@redhat.com> - 0.10.1-1
+- update to 0.10.1 (rhbz#1789066)
+- modernize specfile
+
 * Thu Sep 05 2019 Matthias Runge <mrunge@redhat.com> - 0.9-5
 - skip test_quantity for now (rhbz#1706212)
 
